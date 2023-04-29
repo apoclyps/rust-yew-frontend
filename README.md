@@ -17,3 +17,17 @@ cargo install --locked trunk
 ```Running the application
 trunk serve --open
 ```
+
+## Linting
+
+You can also set up pre-commit to run the linting steps automatically during the commit phase, the pre-commit pipeline can be set up by running the following command on the project root:
+
+```bash
+pre-commit install
+```
+
+To manually run it:
+
+```bash
+pre-commit run --all
+```
