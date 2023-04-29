@@ -1,5 +1,5 @@
 [package]
-name = "rust-yew-course"
+name = "rust-yew-frontend"
 version = "0.1.0"
 edition = "2021"
 
