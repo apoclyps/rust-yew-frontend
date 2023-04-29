@@ -8,6 +8,13 @@ struct MyObject {
     favorite_language: String,
 }
 
+fn render_list(tasks: Vec<&str>) -> Vec<Html> {
+    tasks
+        .iter()
+        .map(|task| html! { <li>{task}</li> })
+        .collect::<Vec<Html>>()
+}
+
 #[function_component(App)]
 pub fn app() -> Html {
     let name: &str = "Apoclyps";
@@ -20,6 +27,8 @@ pub fn app() -> Html {
 
     log!("username is ", name);
     log!(serde_json::to_string_pretty(&my_object).unwrap());
+
+    let tasks: Vec<&str> = vec!["record video", "edit video", "upload video"];
 
     html! {
         <>
@@ -35,6 +44,10 @@ pub fn app() -> Html {
             } else {
                 <p>{"No message"}</p>
             }
+
+            <ul>
+                { render_list(tasks) }
+            </ul>
         </>
     }
 }
