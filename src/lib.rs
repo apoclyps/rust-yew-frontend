@@ -1,7 +1,6 @@
 use gloo::console::log;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use yew::prelude::*;
-
 
 #[derive(Serialize, Deserialize)]
 struct MyObject {
@@ -16,11 +15,15 @@ pub fn app() -> Html {
         username: name.to_owned(),
         favorite_language: "Rust".to_owned(),
     };
+    let class: &str = "title";
 
     log!("username is ", name);
     log!(serde_json::to_string_pretty(&my_object).unwrap());
 
     html! {
-        <h1>{ "Hello World!" }</h1>
+        <>
+            <h1 class={class}>{ "Hello World!" }</h1>
+            <p>{"Hi there!"}</p>
+        </>
     }
 }
