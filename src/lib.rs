@@ -1,5 +1,6 @@
 use gloo::console::log;
 use serde::{Deserialize, Serialize};
+use stylist::{style, yew::styled_component};
 use yew::prelude::*;
 
 #[derive(Serialize, Deserialize)]
@@ -15,7 +16,7 @@ fn render_list(tasks: Vec<&str>) -> Vec<Html> {
         .collect::<Vec<Html>>()
 }
 
-#[function_component(App)]
+#[styled_component(App)]
 pub fn app() -> Html {
     let name: &str = "Apoclyps";
     let my_object: MyObject = MyObject {
@@ -30,9 +31,18 @@ pub fn app() -> Html {
 
     let tasks: Vec<&str> = vec!["record video", "edit video", "upload video"];
 
+    let stylesheet = style!(
+        r#"
+            color: white;
+        "#
+    )
+    .expect("Failed to mount style");
+
     html! {
         <>
-            <h1 class={class}>{ "Hello World!" }</h1>
+        <div class={stylesheet}>
+            <h1>{ "Hello World!" }</h1>
+
             if class == "title" {
                 <p>{"Hi there!"}</p>
             } else {
@@ -48,6 +58,7 @@ pub fn app() -> Html {
             <ul>
                 { render_list(tasks) }
             </ul>
+        </div>
         </>
     }
 }

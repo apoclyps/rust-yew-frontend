@@ -4,12 +4,15 @@
 
 ## Prerequisites
 
-As outlined in the Yew getting started guide, you will need to the install the following dependencies:
+As outlined in the Yew getting started guide, you will need to install the following dependencies:
 
 ```bash
 rustup target add wasm32-unknown-unknown
 
+cargo test --target wasm32-unknown-unknown
+
 cargo install --locked trunk
+cargo install -f wasm-bindgen-cli
 ```
 
 ## Getting started
