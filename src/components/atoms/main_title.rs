@@ -2,6 +2,7 @@ use stylist::{style, yew::styled_component, Style};
 use yew::prelude::*;
 
 #[derive(PartialEq)]
+#[allow(dead_code)]
 pub enum Color {
     Normal,
     Ok,
@@ -9,7 +10,7 @@ pub enum Color {
 }
 
 impl Color {
-    pub fn to_string(&self) -> String {
+    pub fn to_str(&self) -> String {
         match self {
             Color::Normal => "normal".to_owned(),
             Color::Ok => "ok".to_owned(),
@@ -46,7 +47,7 @@ pub fn main_title(props: &Props) -> Html {
 
     html! {
       <div class={stylesheet}>
-        <h1 class={&props.color.to_string()}>{&props.title}</h1>
+        <h1 class={&props.color.to_str()}>{&props.title}</h1>
       </div>
     }
 }

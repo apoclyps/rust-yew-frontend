@@ -9,6 +9,7 @@ mod components;
 use components::atoms::main_title::MainTitle;
 
 use crate::components::atoms::main_title::Color;
+use crate::components::molecules::custom_form::CustomForm;
 
 #[derive(Serialize, Deserialize)]
 struct MyObject {
@@ -64,6 +65,9 @@ pub fn app() -> Html {
             <ul>
                 { render_list(tasks) }
             </ul>
+
+            <CustomForm />
+
         </div>
         </>
     }
