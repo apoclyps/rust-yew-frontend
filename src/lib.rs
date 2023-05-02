@@ -42,10 +42,12 @@ pub fn app() -> Html {
 
     let stylesheet: Style = Style::new(STYLE_FILE).expect("An error occured with the stylesheet");
 
+    let main_title_load = Callback::from(|message: String| log!(message));
+
     html! {
         <>
         <div class={stylesheet}>
-            <MainTitle title="hello world!" color={Color::Normal}/>
+            <MainTitle title="hello world!" color={Color::Normal} on_load={main_title_load} />
 
             if class == "title" {
                 <p>{"Hi there!"}</p>

@@ -22,6 +22,7 @@ impl Color {
 pub struct Props {
     pub title: String,
     pub color: Color,
+    pub on_load: Callback<String>,
 }
 
 #[styled_component(MainTitle)]
@@ -40,6 +41,8 @@ pub fn main_title(props: &Props) -> Html {
         "#
     )
     .unwrap();
+
+    props.on_load.emit("Main Title loaded".to_owned());
 
     html! {
       <div class={stylesheet}>
