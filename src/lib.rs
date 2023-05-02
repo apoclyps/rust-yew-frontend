@@ -8,6 +8,8 @@ mod components;
 
 use components::atoms::main_title::MainTitle;
 
+use crate::components::atoms::main_title::Color;
+
 #[derive(Serialize, Deserialize)]
 struct MyObject {
     username: String,
@@ -43,7 +45,7 @@ pub fn app() -> Html {
     html! {
         <>
         <div class={stylesheet}>
-            <MainTitle title="hello world!" />
+            <MainTitle title="hello world!" color={Color::Normal}/>
 
             if class == "title" {
                 <p>{"Hi there!"}</p>
