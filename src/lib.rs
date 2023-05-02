@@ -1,6 +1,7 @@
 use gloo::console::log;
 use serde::{Deserialize, Serialize};
-use stylist::{style, yew::styled_component};
+use stylist::yew::styled_component;
+use stylist::Style;
 use yew::prelude::*;
 
 #[derive(Serialize, Deserialize)]
@@ -15,6 +16,8 @@ fn render_list(tasks: Vec<&str>) -> Vec<Html> {
         .map(|task| html! { <li>{task}</li> })
         .collect::<Vec<Html>>()
 }
+
+const STYLE_FILE: &str = include_str!("main.css");
 
 #[styled_component(App)]
 pub fn app() -> Html {
@@ -31,12 +34,7 @@ pub fn app() -> Html {
 
     let tasks: Vec<&str> = vec!["record video", "edit video", "upload video"];
 
-    let stylesheet = style!(
-        r#"
-            color: white;
-        "#
-    )
-    .expect("Failed to mount style");
+    let stylesheet: Style = Style::new(STYLE_FILE).expect("An error occured with the stylesheet");
 
     html! {
         <>
@@ -50,9 +48,9 @@ pub fn app() -> Html {
             }
 
             if let Some(message) = message {
-                <p>{message}</p>
+                <p class={css!("color: #efefef; front-size:75px;")}>{message}</p>
             } else {
-                <p>{"No message"}</p>
+                <p class={css!("color: #efefef; front-size:75px;")}>{"No message"}</p>
             }
 
             <ul>
