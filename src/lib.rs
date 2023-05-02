@@ -4,6 +4,10 @@ use stylist::yew::styled_component;
 use stylist::Style;
 use yew::prelude::*;
 
+mod components;
+
+use components::atoms::main_title::MainTitle;
+
 #[derive(Serialize, Deserialize)]
 struct MyObject {
     username: String,
@@ -39,7 +43,7 @@ pub fn app() -> Html {
     html! {
         <>
         <div class={stylesheet}>
-            <h1>{ "Hello World!" }</h1>
+            <MainTitle title="hello world!" />
 
             if class == "title" {
                 <p>{"Hi there!"}</p>
