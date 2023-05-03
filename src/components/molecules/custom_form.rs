@@ -16,10 +16,10 @@ pub fn custom_form() -> Html {
 
     let cloned_state: UseStateHandle<Data> = state.clone();
     let username_changed: Callback<String> = Callback::from(move |username: String| {
-        let mut data: Data = cloned_state.deref().clone();
-        data.username = username;
-
-        cloned_state.set(data);
+        cloned_state.set(Data {
+            username,
+            ..cloned_state.deref().clone()
+        });
     });
 
     let cloned_state: UseStateHandle<Data> = state.clone();
