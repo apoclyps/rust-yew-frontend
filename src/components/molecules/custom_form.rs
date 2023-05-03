@@ -5,13 +5,18 @@ use yew::prelude::*;
 use crate::components::atoms::{custom_button::CustomButton, text_input::TextInput};
 
 #[derive(Default, Clone)]
-struct Data {
+pub struct Data {
     pub username: String,
-    pub count: u32,
+    pub language: String,
+}
+
+#[derive(Properties, PartialEq)]
+pub struct Props {
+    pub onsubmit: Callback<Data>,
 }
 
 #[function_component(CustomForm)]
-pub fn custom_form() -> Html {
+pub fn custom_form(props: &Props) -> Html {
     let state: UseStateHandle<Data> = use_state(Data::default);
 
     let cloned_state: UseStateHandle<Data> = state.clone();
@@ -23,26 +28,37 @@ pub fn custom_form() -> Html {
     });
 
     let cloned_state: UseStateHandle<Data> = state.clone();
-    let button_clicked: Callback<_> = Callback::from(move |_| {
-        let mut data: Data = cloned_state.deref().clone();
-        data.count += 1_u32;
+    let language_changed: Callback<String> = Callback::from(move |language: String| {
+        cloned_state.set(Data {
+            language,
+            ..cloned_state.deref().clone()
+        });
+    });
 
-        cloned_state.set(data);
+    let form_onsubmit = props.onsubmit.clone();
+    let cloned_state = state.clone();
+    let onsubmit: Callback<SubmitEvent> = Callback::from(move |event: SubmitEvent| {
+        event.prevent_default();
+        let data = cloned_state.deref().clone();
+        form_onsubmit.emit(data);
     });
 
     html! {
-      <div>
+      <>
+      <form onsubmit={onsubmit}>
         <TextInput name="username" handle_onchange={username_changed} />
-        <CustomButton label="Submit" onclick={button_clicked} />
+        <TextInput name="favorite_language" handle_onchange={language_changed} />
+        <CustomButton label="Submit" />
+      </form>
 
-        if !state.username.is_empty() {
-          <p>{"Username: "}{&state.username}</p>
-        }
+      if !state.username.is_empty() {
+        <p>{"Username: "}{&state.username}</p>
+      }
 
-        if state.count >= 1_u32 {
-          <p>{"Button clicked: "}{state.count} {" times"}</p>
-        }
+      if !state.language.is_empty() {
+        <p>{"Favorite Language: "}{&state.language}</p>
+      }
 
-      </div>
+      </>
     }
 }

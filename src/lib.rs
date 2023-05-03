@@ -9,7 +9,7 @@ mod components;
 use components::atoms::main_title::MainTitle;
 
 use crate::components::atoms::main_title::Color;
-use crate::components::molecules::custom_form::CustomForm;
+use crate::components::molecules::custom_form::{CustomForm, Data};
 
 #[derive(Serialize, Deserialize)]
 struct MyObject {
@@ -45,6 +45,11 @@ pub fn app() -> Html {
 
     let main_title_load = Callback::from(|message: String| log!(message));
 
+    let custom_form_submit = Callback::from(|data: Data| {
+        log!("username is", data.username);
+        log!("favorite language is", data.language);
+    });
+
     html! {
         <>
         <div class={stylesheet}>
@@ -66,7 +71,7 @@ pub fn app() -> Html {
                 { render_list(tasks) }
             </ul>
 
-            <CustomForm />
+            <CustomForm onsubmit={custom_form_submit} />
 
         </div>
         </>
