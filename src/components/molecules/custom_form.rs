@@ -1,24 +1,48 @@
+use std::ops::Deref;
+
 use yew::prelude::*;
 
 use crate::components::atoms::{custom_button::CustomButton, text_input::TextInput};
 
+#[derive(Default, Clone)]
+struct Data {
+    pub username: String,
+    pub count: u32,
+}
+
 #[function_component(CustomForm)]
 pub fn custom_form() -> Html {
-    let username_state: UseStateHandle<String> = use_state(|| "no username set".to_owned());
-    let cloned_username_state: UseStateHandle<String> = username_state.clone();
+    let state: UseStateHandle<Data> = use_state(Data::default);
 
+    let cloned_state: UseStateHandle<Data> = state.clone();
     let username_changed: Callback<String> = Callback::from(move |username: String| {
-        cloned_username_state.set(username);
+        let mut data: Data = cloned_state.deref().clone();
+        data.username = username;
+
+        cloned_state.set(data);
+    });
+
+    let cloned_state: UseStateHandle<Data> = state.clone();
+    let button_clicked: Callback<_> = Callback::from(move |_| {
+        let mut data: Data = cloned_state.deref().clone();
+        data.count += 1_u32;
+
+        cloned_state.set(data);
     });
 
     html! {
-      <form>
+      <div>
         <TextInput name="username" handle_onchange={username_changed} />
-        <CustomButton label="Submit" />
+        <CustomButton label="Submit" onclick={button_clicked} />
 
-        if &*username_state != "no username set" {
-          <p>{"Username: "}{&*username_state}</p>
+        if !state.username.is_empty() {
+          <p>{"Username: "}{&state.username}</p>
         }
-      </form>
+
+        if state.count >= 1_u32 {
+          <p>{"Button clicked: "}{state.count} {" times"}</p>
+        }
+
+      </div>
     }
 }
