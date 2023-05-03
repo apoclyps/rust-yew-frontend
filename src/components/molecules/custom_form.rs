@@ -2,7 +2,10 @@ use std::ops::Deref;
 
 use yew::prelude::*;
 
-use crate::components::atoms::{custom_button::CustomButton, text_input::TextInput};
+use crate::{
+    components::atoms::{custom_button::CustomButton, text_input::TextInput},
+    User,
+};
 
 #[derive(Default, Clone)]
 pub struct Data {
@@ -18,6 +21,7 @@ pub struct Props {
 #[function_component(CustomForm)]
 pub fn custom_form(props: &Props) -> Html {
     let state: UseStateHandle<Data> = use_state(Data::default);
+    let user_context: Option<User> = use_context::<User>();
 
     let cloned_state: UseStateHandle<Data> = state.clone();
     let username_changed: Callback<String> = Callback::from(move |username: String| {
@@ -36,7 +40,7 @@ pub fn custom_form(props: &Props) -> Html {
     });
 
     let form_onsubmit = props.onsubmit.clone();
-    let cloned_state = state.clone();
+    let cloned_state = state;
     let onsubmit: Callback<SubmitEvent> = Callback::from(move |event: SubmitEvent| {
         event.prevent_default();
         let data = cloned_state.deref().clone();
@@ -51,12 +55,12 @@ pub fn custom_form(props: &Props) -> Html {
         <CustomButton label="Submit" />
       </form>
 
-      if !state.username.is_empty() {
-        <p>{"Username: "}{&state.username}</p>
+      if !user_context.clone().unwrap_or_default().username.is_empty() {
+        <p>{"Username: "}{user_context.clone().unwrap_or_default().username}</p>
       }
 
-      if !state.language.is_empty() {
-        <p>{"Favorite Language: "}{&state.language}</p>
+      if !user_context.clone().unwrap_or_default().language.is_empty() {
+        <p>{"Favorite Language: "}{user_context.clone().unwrap_or_default().language}</p>
       }
 
       </>

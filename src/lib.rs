@@ -1,15 +1,16 @@
+mod components;
+
+use std::ops::Deref;
+
+use crate::components::atoms::main_title::Color;
+use crate::components::molecules::custom_form::{CustomForm, Data};
+use components::atoms::main_title::MainTitle;
 use gloo::console::log;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use stylist::Style;
 use yew::prelude::*;
-
-mod components;
-
-use components::atoms::main_title::MainTitle;
-
-use crate::components::atoms::main_title::Color;
-use crate::components::molecules::custom_form::{CustomForm, Data};
+use yew::ContextProvider;
 
 #[derive(Serialize, Deserialize)]
 struct MyObject {
@@ -26,6 +27,12 @@ fn render_list(tasks: Vec<&str>) -> Vec<Html> {
 
 const STYLE_FILE: &str = include_str!("main.css");
 
+#[derive(Debug, Clone, PartialEq, Default)]
+pub struct User {
+    pub username: String,
+    pub language: String,
+}
+
 #[styled_component(App)]
 pub fn app() -> Html {
     let name: &str = "Apoclyps";
@@ -35,6 +42,7 @@ pub fn app() -> Html {
     };
     let class: &str = "title";
     let message: Option<&str> = Some("I am a message");
+    let user_state = use_state(User::default);
 
     log!("username is ", name);
     log!(serde_json::to_string_pretty(&my_object).unwrap());
@@ -43,17 +51,29 @@ pub fn app() -> Html {
 
     let stylesheet: Style = Style::new(STYLE_FILE).expect("An error occured with the stylesheet");
 
-    let main_title_load = Callback::from(|message: String| log!(message));
+    let main_title_load: Callback<String> = Callback::from(|message: String| log!(message));
 
-    let custom_form_submit = Callback::from(|data: Data| {
-        log!("username is", data.username);
-        log!("favorite language is", data.language);
-    });
+    let custom_form_submit: Callback<Data> = {
+        let user_state: UseStateHandle<User> = user_state.clone();
+
+        Callback::from(move |data: Data| {
+            let mut user: User = user_state.deref().clone();
+
+            user.username = data.username;
+            user.language = data.language;
+
+            user_state.set(user);
+        })
+    };
 
     html! {
         <>
         <div class={stylesheet}>
+
+        <ContextProvider<User> context={user_state.deref().clone()}>
             <MainTitle title="hello world!" color={Color::Normal} on_load={main_title_load} />
+            <CustomForm onsubmit={custom_form_submit} />
+        </ContextProvider<User>>
 
             if class == "title" {
                 <p>{"Hi there!"}</p>
@@ -70,8 +90,6 @@ pub fn app() -> Html {
             <ul>
                 { render_list(tasks) }
             </ul>
-
-            <CustomForm onsubmit={custom_form_submit} />
 
         </div>
         </>
