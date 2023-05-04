@@ -66,6 +66,23 @@ pub fn app() -> Html {
         })
     };
 
+    let first_load = use_state(|| true);
+
+    use_effect(move || {
+        // this code will run on first render and all subsequent renders
+
+        // if auth token is exists and it's our first render then:
+        // get all users todo tasks
+
+        if *first_load {
+            // this is only run when the component loads for the first time
+            first_load.set(false);
+            log!("first load")
+        }
+
+        || {}
+    });
+
     html! {
         <>
         <div class={stylesheet}>
