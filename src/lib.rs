@@ -99,7 +99,7 @@ pub fn app() -> Html {
             </BrowserRouter>
         </ContextProvider<User>>
 
-            <StructAbout />
+            <StructAbout message={"Hello from lib.rs".to_owned()} />
 
             if class == "title" {
                 <p>{"Hi there!"}</p>
