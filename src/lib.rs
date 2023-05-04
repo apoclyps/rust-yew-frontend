@@ -1,9 +1,11 @@
 mod components;
+mod router;
 
 use std::ops::Deref;
 
 use crate::components::atoms::main_title::Color;
 use crate::components::molecules::custom_form::{CustomForm, Data};
+use crate::router::{switch, Route};
 use components::atoms::main_title::MainTitle;
 use gloo::console::log;
 use serde::{Deserialize, Serialize};
@@ -11,6 +13,7 @@ use stylist::yew::styled_component;
 use stylist::Style;
 use yew::prelude::*;
 use yew::ContextProvider;
+use yew_router::prelude::*;
 
 #[derive(Serialize, Deserialize)]
 struct MyObject {
@@ -90,6 +93,9 @@ pub fn app() -> Html {
         <ContextProvider<User> context={user_state.deref().clone()}>
             <MainTitle title="hello world!" color={Color::Normal} on_load={main_title_load} />
             <CustomForm onsubmit={custom_form_submit} />
+            <BrowserRouter>
+                <Switch<Route> render={switch} />
+            </BrowserRouter>
         </ContextProvider<User>>
 
             if class == "title" {
