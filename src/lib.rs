@@ -7,6 +7,7 @@ use crate::components::atoms::main_title::Color;
 use crate::components::molecules::custom_form::{CustomForm, Data};
 use crate::router::{switch, Route};
 use components::atoms::main_title::MainTitle;
+use components::atoms::struct_about::StructAbout;
 use gloo::console::log;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
@@ -97,6 +98,8 @@ pub fn app() -> Html {
                 <Switch<Route> render={switch} />
             </BrowserRouter>
         </ContextProvider<User>>
+
+            <StructAbout />
 
             if class == "title" {
                 <p>{"Hi there!"}</p>
