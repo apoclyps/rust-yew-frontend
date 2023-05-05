@@ -14,3 +14,4 @@ yew = { version = "0.20", features = ["csr"] }
 wasm-bindgen = "0.2.76"
 web-sys = { version ="0.3.56", features = ["HtmlInputElement"]}
 yew-router = { version = "0.17.0" }
+yewdux = { version = "0.9.2" }

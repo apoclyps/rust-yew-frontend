@@ -1,15 +1,21 @@
 mod components;
+mod display_count;
+mod increment_count;
 mod router;
+mod stores;
 
 use std::ops::Deref;
 
 use crate::components::atoms::main_title::Color;
+use crate::components::atoms::main_title::MainTitle;
+use crate::components::atoms::struct_about::StructAbout;
 use crate::components::molecules::custom_form::{CustomForm, Data};
 use crate::components::molecules::struct_counter::StructCounter;
 use crate::router::{switch, Route};
-use components::atoms::main_title::MainTitle;
-use components::atoms::struct_about::StructAbout;
+
+use display_count::DisplayCount;
 use gloo::console::log;
+use increment_count::IncrementCount;
 use serde::{Deserialize, Serialize};
 use stylist::yew::styled_component;
 use stylist::Style;
@@ -47,7 +53,7 @@ pub fn app() -> Html {
     };
     let class: &str = "title";
     let message: Option<&str> = Some("I am a message");
-    let user_state = use_state(User::default);
+    let user_state: UseStateHandle<User> = use_state(User::default);
 
     log!("username is ", name);
     log!(serde_json::to_string_pretty(&my_object).unwrap());
@@ -119,6 +125,9 @@ pub fn app() -> Html {
             </ul>
 
             <StructCounter />
+
+            <DisplayCount />
+            <IncrementCount />
 
         </div>
         </>
