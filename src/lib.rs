@@ -5,6 +5,7 @@ use std::ops::Deref;
 
 use crate::components::atoms::main_title::Color;
 use crate::components::molecules::custom_form::{CustomForm, Data};
+use crate::components::molecules::struct_counter::StructCounter;
 use crate::router::{switch, Route};
 use components::atoms::main_title::MainTitle;
 use components::atoms::struct_about::StructAbout;
@@ -116,6 +117,8 @@ pub fn app() -> Html {
             <ul>
                 { render_list(tasks) }
             </ul>
+
+            <StructCounter />
 
         </div>
         </>
