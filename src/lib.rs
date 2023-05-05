@@ -1,4 +1,6 @@
+mod auth_form;
 mod components;
+mod display_auth;
 mod display_count;
 mod increment_count;
 mod router;
@@ -6,6 +8,7 @@ mod stores;
 
 use std::ops::Deref;
 
+use crate::auth_form::AuthForm;
 use crate::components::atoms::main_title::Color;
 use crate::components::atoms::main_title::MainTitle;
 use crate::components::atoms::struct_about::StructAbout;
@@ -13,6 +16,7 @@ use crate::components::molecules::custom_form::{CustomForm, Data};
 use crate::components::molecules::struct_counter::StructCounter;
 use crate::router::{switch, Route};
 
+use display_auth::DisplayAuth;
 use display_count::DisplayCount;
 use gloo::console::log;
 use increment_count::IncrementCount;
@@ -21,6 +25,7 @@ use stylist::yew::styled_component;
 use stylist::Style;
 use yew::prelude::*;
 use yew::ContextProvider;
+
 use yew_router::prelude::*;
 
 #[derive(Serialize, Deserialize)]
@@ -128,6 +133,9 @@ pub fn app() -> Html {
 
             <DisplayCount />
             <IncrementCount />
+
+            <AuthForm />
+            <DisplayAuth />
 
         </div>
         </>
